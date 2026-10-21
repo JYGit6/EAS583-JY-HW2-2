@@ -21,17 +21,17 @@ web3 = Web3(provider)
 
 
 def get_ape_info(ape_id):
-    assert isinstance(ape_id, int), f"{ape_id} is not an int"
+  	assert isinstance(ape_id, int), f"{ape_id} is not an int"
     assert 0 <= ape_id, f"{ape_id} must be at least 0"
     assert 9999 >= ape_id, f"{ape_id} must be less than 10,000"
 
     data = {'owner': "", 'image': "", 'eyes': ""}
-
-    # YOUR CODE HERE
+		
+		# YOUR CODE HERE
 		contract = web3.eth.contract(address=contract_address, abi=abi)
 		data['owner'] = contract.functions.ownerOf(ape_id).call()
 		metadata_uri = contract.functions.tokenURI(ape_id).call()
-
+		
 		if metadata_uri.startswith("ipfs://"):
 			ipfs_path = metadata_uri[len("ipfs://"):]
 		else:
