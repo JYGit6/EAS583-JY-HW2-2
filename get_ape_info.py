@@ -52,8 +52,3 @@ def get_ape_info(ape_id):
     assert all([a in data.keys() for a in
                 ['owner', 'image', 'eyes']]), f"return value should include the keys 'owner','image' and 'eyes'"
     return data
-
-# Test
-if __name__ == "__main__":
-    print("Connected to Ethereum:", web3.is_connected())
-    print(get_ape_info(1))
