@@ -26,27 +26,27 @@ def get_ape_info(ape_id):
     assert 9999 >= ape_id, f"{ape_id} must be less than 10,000"
 
     data = {'owner': "", 'image': "", 'eyes': ""}
-		
-		# YOUR CODE HERE
-		contract = web3.eth.contract(address=contract_address, abi=abi)
-		data['owner'] = contract.functions.ownerOf(ape_id).call()
-		metadata_uri = contract.functions.tokenURI(ape_id).call()
-		
-		if metadata_uri.startswith("ipfs://"):
-			ipfs_path = metadata_uri[len("ipfs://"):]
-		else:
-			ipfs_path = metadata_uri
-		
-		metadata_url = "https://gateway.pinata.cloud/ipfs/" + ipfs_path
 
-		response = requests.get(metadata_url, timeout=30)
-		response.raise_for_status()
-		metadata = response.json()
+    # YOUR CODE HERE
+    contract = web3.eth.contract(address=contract_address, abi=abi)
+    data['owner'] = contract.functions.ownerOf(ape_id).call()
+    metadata_uri = contract.functions.tokenURI(ape_id).call()
 
-		for attribute in metadata.get('attributes', []):
-			if attribute.get('trait_type', '').lower() == 'eyes':
-				data['eyes'] = attribute.get('value', '')
-				break
+    if metadata_uri.startswith("ipfs://"):
+        ipfs_path = metadata_uri[len("ipfs://"):]
+    else:
+        ipfs_path = metadata_uri
+		
+    metadata_url = "https://gateway.pinata.cloud/ipfs/" + ipfs_path
+
+    response = requests.get(metadata_url, timeout=30)
+    response.raise_for_status()
+    metadata = response.json()
+
+    for attribute in metadata.get('attributes', []):
+        if attribute.get('trait_type', '').lower() == 'eyes':
+            data['eyes'] = attribute.get('value', '')
+            break
 
     assert isinstance(data, dict), f'get_ape_info{ape_id} should return a dict'
     assert all([a in data.keys() for a in
