@@ -21,7 +21,7 @@ web3 = Web3(provider)
 
 
 def get_ape_info(ape_id):
-  	assert isinstance(ape_id, int), f"{ape_id} is not an int"
+    assert isinstance(ape_id, int), f"{ape_id} is not an int"
     assert 0 <= ape_id, f"{ape_id} must be at least 0"
     assert 9999 >= ape_id, f"{ape_id} must be less than 10,000"
 
@@ -55,5 +55,5 @@ def get_ape_info(ape_id):
 
 # Test
 if __name__ == "__main__":
-	print("Connected to Ethereum:", web3.is_connected())
-	print(get_ape_info(1))
+    print("Connected to Ethereum:", web3.is_connected())
+    print(get_ape_info(1))
