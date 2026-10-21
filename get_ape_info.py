@@ -32,17 +32,14 @@ def get_ape_info(ape_id):
     data['owner'] = contract.functions.ownerOf(ape_id).call()
     metadata_uri = contract.functions.tokenURI(ape_id).call()
 
-    if metadata_uri.startswith("ipfs://"):
-        ipfs_path = metadata_uri[len("ipfs://"):]
-    else:
-        ipfs_path = metadata_uri
-		
+    ipfs_path = metadata_uri.replace("ipfs://", "")
     metadata_url = "https://gateway.pinata.cloud/ipfs/" + ipfs_path
 
     response = requests.get(metadata_url, timeout=30)
     response.raise_for_status()
     metadata = response.json()
 
+    data['image'] = metadata.get('image', '')
     for attribute in metadata.get('attributes', []):
         if attribute.get('trait_type', '').lower() == 'eyes':
             data['eyes'] = attribute.get('value', '')
